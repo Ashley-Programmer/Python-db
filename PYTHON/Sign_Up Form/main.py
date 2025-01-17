@@ -21,24 +21,24 @@ def login_page():
     loginFrame.grid(row=0, column=0, pady=40, padx=25)
     loginFrame.configure(fg_color='#fff')
     
-    heading_label = CTkLabel(loginFrame, text='Welcome back Login Now!',
-                         font=('bookman old style', 30, 'bold'), text_color='green')
+    Heading_label = CTkLabel(loginFrame, text='Welcome back Login Now!',
+                             font=('bookman old style', 30, 'bold'), text_color='green')
 
-    sub_heading_label = CTkLabel(loginFrame, text='Login as a member!.',  
-                         font=('bookman old style', 18), text_color='black')
-    heading_label.grid(row=0, column=0)
-    sub_heading_label.grid(row=1, column=0, pady=(0, 40))
+    Sub_Heading_label = CTkLabel(loginFrame, text='Login as a member!.',
+                                 font=('bookman old style', 18), text_color='black')
+    Heading_label.grid(row=0, column=0)
+    Sub_Heading_label.grid(row=1, column=0, pady=(0, 40))
     
-    emailEntry = CTkEntry(loginFrame, placeholder_text='Enter email here...',
-                     font=('bookman old style', 15), text_color='black', height=40, width=350)
-    passEntry = CTkEntry(loginFrame, placeholder_text='Enter password here...',
-                     font=('bookman old style', 15), text_color='black', height=40, width=350)
+    EmailEntry = CTkEntry(loginFrame, placeholder_text='Enter email here...',
+                          font=('bookman old style', 15), text_color='black', height=40, width=350)
+    PassEntry = CTkEntry(loginFrame, placeholder_text='Enter password here...',
+                         font=('bookman old style', 15), text_color='black', height=40, width=350)
     
-    emailEntry.grid(row=3, column=0, pady=(0, 20))
-    emailEntry.configure(fg_color='#f5f5f5', bg_color='#000', border_color='#000')
+    EmailEntry.grid(row=3, column=0, pady=(0, 20))
+    EmailEntry.configure(fg_color='#f5f5f5', bg_color='#000', border_color='#000')
 
-    passEntry.grid(row=4, column=0, pady=(0, 20))
-    passEntry.configure(fg_color='#f5f5f5', bg_color='#000', border_color='#000')
+    PassEntry.grid(row=4, column=0, pady=(0, 20))
+    PassEntry.configure(fg_color='#f5f5f5', bg_color='#000', border_color='#000')
     
     btnLogin = CTkButton(loginFrame, text='LOGIN', 
                       font=('bookman old style', 15, 'bold'), 
@@ -46,18 +46,18 @@ def login_page():
     btnLogin.grid(row=6, column=0, pady=(0, 20))
     btnLogin.configure(fg_color='green')
     
-    frame = CTkFrame(loginFrame, fg_color='#fff')
-    frame.grid(row=7, column=0)
+    Frame = CTkFrame(loginFrame, fg_color='#fff')
+    Frame.grid(row=7, column=0)
     
-    lbl = CTkLabel(frame, text="Not a member yet?", font=('bookman old style', 13), text_color='#000')
-    lbl.grid(row=0, column=0)
-    lbl.configure(fg_color='white')
+    label = CTkLabel(Frame, text="Not a member yet?", font=('bookman old style', 13), text_color='#000')
+    label.grid(row=0, column=0)
+    label.configure(fg_color='white')
     
-    login_here = CTkButton(frame, text='SignUp here', 
-                       font=('bookman old style', 15, 'underline'),
-                       text_color='darkgreen', hover_color='#fff', cursor='hand2', command=signup_page)
-    login_here.grid(row=0, column=1)
-    login_here.configure(fg_color='#fff')
+    Login_here = CTkButton(Frame, text='SignUp here',
+                           font=('bookman old style', 15, 'underline'),
+                           text_color='darkgreen', hover_color='#fff', cursor='hand2', command=signup_page)
+    Login_here.grid(row=0, column=1)
+    Login_here.configure(fg_color='#fff')
     
     
 

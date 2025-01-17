@@ -23,23 +23,23 @@ except mysql.connector.Error as err:
 
 # Register function
 def register_user(username, email, password):
-    conn = connect_db()
-    cursor = conn.cursor()
+    connection = connect_db()
+    cursor = connection.cursor()
     try:
         cursor.execute("INSERT INTO users_db (username, email, password) VALUES (%s, %s, %s)", 
                        (username, email, password))
-        conn.commit() # save changes to the database
+        connection.commit() # save changes to the database
         messagebox.showinfo("Success", "User registered successfully!")
-    except mysql.connector.Error as err:
-        messagebox.showerror("Error", f"Error occurred: {err}")
+    except mysql.connector.Error as error:
+        messagebox.showerror("Error", f"Error occurred: {error}")
     finally:
         cursor.close()
-        conn.close()
+        connection.close()
 
 # Login function
 def login_user(email, password):
-    conn = connect_db()
-    cursor = conn.cursor()
+    connection = connect_db()
+    cursor = connection.cursor()
     try:
         cursor.execute("SELECT password FROM users_db WHERE email=%s", (email,))
         result = cursor.fetchone()  # fetch first row (password for login)
@@ -50,14 +50,14 @@ def login_user(email, password):
         elif result[0]  != password:
             messagebox.showerror("Error", "Incorrect password!")
         elif len(password) < 8:
-            messagebox.showerror("Error!", "Password must be atleast 8 or more characters!")
+            messagebox.showerror("Error!", "Password must be at least 8 or more characters!")
         else:
             messagebox.showerror("Error", "Invalid email or password")
-    except mysql.connector.Error as err:
-        messagebox.showerror("Error", f"Error occurred: {err}")
+    except mysql.connector.Error as error:
+        messagebox.showerror("Error", f"Error occurred: {error}")
     finally:
         cursor.close()
-        conn.close()
+        connection.close()
 
 # register form validation
 def validate_form(username, email, password, confirm_password):
@@ -68,7 +68,7 @@ def validate_form(username, email, password, confirm_password):
         messagebox.showerror("Error", "Passwords do not match!")
         return False
     elif len(password) < 8:
-        messagebox.showerror("Error", "Password must be atleast 8 or more characters!")
+        messagebox.showerror("Error", "Password must be at least 8 or more characters!")
         return False
     return True
 
@@ -78,7 +78,7 @@ def validate_form2(email, password):
         messagebox.showerror("Error!", "All fields are required!")
         return False
     elif len(password) < 8:
-        messagebox.showerror("Error!", "Password must be atleast 8 or more characters!")
+        messagebox.showerror("Error!", "Password must be at least 8 or more characters!")
         return False
     return True
 
@@ -87,7 +87,7 @@ def register_and_redirect():
     if validate_form(nameEntry.get(), emailEntry.get(), passEntry.get(), cpassEntry.get()):
         register_user(nameEntry.get(), emailEntry.get(), passEntry.get())
         login_page()
-        
+
 def login_and_redirect():
     if validate_form2(emailEntry.get(), passEntry.get()):
         login_user(emailEntry.get(), passEntry.get())
@@ -103,6 +103,7 @@ def signup_page():
 
 def manage_user_page():
     global  manage_user_frame
+
     loginFrame.grid_forget()
     signup_window.title("Manage User Window")
     signup_window.geometry('500x470+480+100')
@@ -116,9 +117,9 @@ def manage_user_page():
     manage_frame.grid(row=0, column=0, pady=40, padx=120)
     manage_frame.configure(fg_color='#fff')
     
-    heading_label = CTkLabel(manage_frame, text='Manage user data',
-                         font=('algerian', 30, 'bold'), text_color='green')
-    heading_label.grid(row=0, column=0, pady=(0, 40))
+    Heading_label = CTkLabel(manage_frame, text='Manage user data',
+                             font=('algerian', 30, 'bold'), text_color='green')
+    Heading_label.grid(row=0, column=0, pady=(0, 40))
     
     # Create a button to display user data
     display_button = CTkButton(manage_frame, text='Show/Pop up User Data',
@@ -129,8 +130,8 @@ def manage_user_page():
     
 def load_data_from_db():
     # Connect to the database
-    conn = connect_db()
-    cursor = conn.cursor()
+    connection = connect_db()
+    cursor = connection.cursor()
 
     # Execute a query to fetch user data
     query = "SELECT id, username, email, password FROM users_db"  # Adjust the query as per your table structure
@@ -141,7 +142,7 @@ def load_data_from_db():
 
     # Close the database connection
     cursor.close()
-    conn.close()
+    connection.close()
 
     return rows
 
@@ -174,53 +175,53 @@ def login_page():
     loginFrame.grid(row=0, column=0, pady=40, padx=25)
     loginFrame.configure(fg_color='#fff')
     
-    heading_label = CTkLabel(loginFrame, text='Welcome back Login Now!',
-                         font=('bookman old style', 30, 'bold'), text_color='green')
+    Heading_label = CTkLabel(loginFrame, text='Welcome back Login Now!',
+                             font=('bookman old style', 30, 'bold'), text_color='green')
 
-    sub_heading_label = CTkLabel(loginFrame, text='Login as a member!.',  
-                         font=('bookman old style', 18), text_color='black')
-    heading_label.grid(row=0, column=0)
-    sub_heading_label.grid(row=1, column=0, pady=(0, 40))
+    Sub_heading_label = CTkLabel(loginFrame, text='Login as a member!.',
+                                 font=('bookman old style', 18), text_color='black')
+    Heading_label.grid(row=0, column=0)
+    Sub_heading_label.grid(row=1, column=0, pady=(0, 40))
     
-    emailEntry = CTkEntry(loginFrame, placeholder_text='Enter email here...',
-                     font=('bookman old style', 15), text_color='black', height=40, width=350)
-    passEntry = CTkEntry(loginFrame, placeholder_text='Enter password here...',
-                     font=('bookman old style', 15), text_color='black', height=40, width=350, show="*")
+    EmailEntry = CTkEntry(loginFrame, placeholder_text='Enter email here...',
+                          font=('bookman old style', 15), text_color='black', height=40, width=350)
+    PassEntry = CTkEntry(loginFrame, placeholder_text='Enter password here...',
+                         font=('bookman old style', 15), text_color='black', height=40, width=350, show="*")
     
-    emailEntry.grid(row=3, column=0, pady=(0, 20))
-    emailEntry.configure(fg_color='#f5f5f5', bg_color='#000', border_color='#000')
+    EmailEntry.grid(row=3, column=0, pady=(0, 20))
+    EmailEntry.configure(fg_color='#f5f5f5', bg_color='#000', border_color='#000')
 
-    passEntry.grid(row=4, column=0, pady=(0, 20))
-    passEntry.configure(fg_color='#f5f5f5', bg_color='#000', border_color='#000')
+    PassEntry.grid(row=4, column=0, pady=(0, 20))
+    PassEntry.configure(fg_color='#f5f5f5', bg_color='#000', border_color='#000')
     
     btnLogin = CTkButton(loginFrame, text='LOGIN', 
                       font=('bookman old style', 15, 'bold'), 
                       text_color='white', hover_color='darkgreen', height=40 ,width=320, cursor='hand2', 
                       command=lambda: (
-                          validate_form2(emailEntry.get(), passEntry.get()) and
-                          login_user(emailEntry.get(), passEntry.get()) and
-                          login_and_redirect() 
+                              validate_form2(EmailEntry.get(), PassEntry.get()) and
+                              login_user(EmailEntry.get(), PassEntry.get()) and
+                              login_and_redirect()
                       )
 )
     
     btnLogin.grid(row=6, column=0, pady=(0, 20))
     btnLogin.configure(fg_color='green')
     
-    frame = CTkFrame(loginFrame, fg_color='#fff')
-    frame.grid(row=7, column=0)
+    Frame = CTkFrame(loginFrame, fg_color='#fff')
+    Frame.grid(row=7, column=0)
     
-    lbl = CTkLabel(frame, text="Not a member yet?", font=('bookman old style', 13), text_color='#000')
-    lbl.grid(row=0, column=0)
-    lbl.configure(fg_color='white')
+    label = CTkLabel(Frame, text="Not a member yet?", font=('bookman old style', 13), text_color='#000')
+    label.grid(row=0, column=0)
+    label.configure(fg_color='white')
     
-    login_here = CTkButton(frame, text='SignUp here', 
-                       font=('bookman old style', 15, 'underline'),
-                       text_color='darkgreen', hover_color='#fff', cursor='hand2',
-                       command=signup_page)
+    Login_here = CTkButton(Frame, text='SignUp here',
+                           font=('bookman old style', 15, 'underline'),
+                           text_color='darkgreen', hover_color='#fff', cursor='hand2',
+                           command=signup_page)
 
     
-    login_here.grid(row=0, column=1)
-    login_here.configure(fg_color='#fff')
+    Login_here.grid(row=0, column=1)
+    Login_here.configure(fg_color='#fff')
     
     frameOne = CTkFrame(loginFrame, fg_color='#fff')
     frameOne.grid(row=8, column=0)
@@ -247,7 +248,7 @@ signup_window.configure(fg_color='white')
 signup_window.geometry('440x500+500+100') # width = 440, height = 500
 
 #disable the maximise button
-signup_window.resizable(0,0)
+signup_window.resizable(False, False)
 
 # create a frame using frame class to place anything inside
 # make its object (signupFrame)
