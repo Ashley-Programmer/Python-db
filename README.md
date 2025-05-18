@@ -15,7 +15,7 @@ A desktop application built with Python and CustomTkinter for user registration,
 
 ## Requirements
 
-- Python 3.x
+- Python3
 - MySQL Server
 - Required Python packages:
   - `customtkinter`
